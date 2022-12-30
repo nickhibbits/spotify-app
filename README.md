@@ -1,4 +1,4 @@
-#Spotify App
+# Spotify App
 
 Full-stack web application that integrates with the Spotify Web API.
 
