@@ -67,6 +67,7 @@ app.get("/callback", (req, res) => {
         const queryParams = querystring.stringify({
           access_token,
           refresh_token,
+          expires_in,
         });
 
         res.redirect(`http://localhost:3000?${queryParams}`);
