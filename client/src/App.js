@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { accessToken, getCurrentUserProfile, logout } from "./spotify";
-import "./App.css";
 import { catchErrors } from "./utils";
+import { Routes, Route } from "react-router-dom";
+
+import "./App.css";
 
 function App() {
   const [token, setToken] = useState(null);
@@ -26,20 +28,36 @@ function App() {
             Log in to Spotify
           </a>
         ) : (
-          <>
-            {/* <h1>Logged in!</h1> */}
-            <button onClick={logout}>Log Out</button>
+          <Routes>
+            {/* need to pass components into 'element' prop on each Route */}
+            <Route path="/top-artists">
+              <h1>Top Artists</h1>
+            </Route>
+            <Route path="/top-tracks">
+              <h1>Top Tracks</h1>
+            </Route>
+            <Route path="/playlists/:id">
+              <h1>Playlist</h1>
+            </Route>
+            <Route path="/playlists">
+              <h1>Playlists</h1>
+            </Route>
+            <Route path="/">
+              <>
+                <button onClick={logout}>Log Out</button>
 
-            {profile && (
-              <div>
-                <h1>{profile.display_name}</h1>
-                <p>{profile.followers.total} Followers</p>
-                {profile.images.length && profile.images[0].url && (
-                  <img src={profile.images[0].url} alt="Avatar" />
+                {profile && (
+                  <div>
+                    <h1>{profile.display_name}</h1>
+                    <p>{profile.followers.total} Followers</p>
+                    {profile.images.length && profile.images[0].url && (
+                      <img src={profile.images[0].url} alt="Avatar" />
+                    )}
+                  </div>
                 )}
-              </div>
-            )}
-          </>
+              </>
+            </Route>
+          </Routes>
         )}
       </header>
     </div>
