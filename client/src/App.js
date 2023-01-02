@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { accessToken, getCurrentUserProfile, logout } from "./spotify";
 import { catchErrors } from "./utils";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import "./App.css";
+import Container from "./Container";
+import UserInfo from "./UserInfo";
+import ScrollToTop from "./ScrollToTop";
 
 function App() {
   const [token, setToken] = useState(null);
@@ -28,36 +31,33 @@ function App() {
             Log in to Spotify
           </a>
         ) : (
-          <Routes>
-            {/* need to pass components into 'element' prop on each Route */}
-            <Route path="/top-artists">
-              <h1>Top Artists</h1>
-            </Route>
-            <Route path="/top-tracks">
-              <h1>Top Tracks</h1>
-            </Route>
-            <Route path="/playlists/:id">
-              <h1>Playlist</h1>
-            </Route>
-            <Route path="/playlists">
-              <h1>Playlists</h1>
-            </Route>
-            <Route path="/">
-              <>
-                <button onClick={logout}>Log Out</button>
+          <BrowserRouter>
+            <ScrollToTop />
+            <Routes>
+              {/* need to pass components into 'element' prop on each Route */}
+              <Route
+                path="/top-artists"
+                element={<Container data={"Top Artists"} />}
+              />
 
-                {profile && (
-                  <div>
-                    <h1>{profile.display_name}</h1>
-                    <p>{profile.followers.total} Followers</p>
-                    {profile.images.length && profile.images[0].url && (
-                      <img src={profile.images[0].url} alt="Avatar" />
-                    )}
-                  </div>
-                )}
-              </>
-            </Route>
-          </Routes>
+              <Route
+                path="/top-tracks"
+                element={<Container data={"Top Tracks"} />}
+              />
+
+              <Route
+                path="/playlists/:id"
+                element={<Container data={"Playlist by Id"} />}
+              />
+
+              <Route
+                path="/playlists"
+                element={<Container data={"Playlists"} />}
+              />
+
+              <Route path="/" element={<UserInfo profile={profile} />} />
+            </Routes>
+          </BrowserRouter>
         )}
       </header>
     </div>
