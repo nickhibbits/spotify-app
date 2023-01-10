@@ -1,27 +1,34 @@
 import { useState, useEffect } from "react";
-import { accessToken, getCurrentUserProfile } from "./spotify";
-import { catchErrors } from "./utils";
+import { accessToken, logout } from "./spotify";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { GlobalStyle } from "./styles";
-import { Login } from "./pages";
+import { Login, Profile } from "./pages";
 
 import Container from "./Container";
-import UserInfo from "./UserInfo";
 import ScrollToTop from "./ScrollToTop";
+import styled from "styled-components/macro";
+
+const StyledLogoutButton = styled.button`
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--white);
+  font-size: var(--fz-sm);
+  font-weight: 700;
+  border-radius: var(--border-radius-pill);
+  z-index: 10;
+  @media (min-width: 768px) {
+    right: var(--spacing-lg);
+  }
+`;
 
 function App() {
   const [token, setToken] = useState(null);
-  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     setToken(accessToken);
-
-    const fetchData = async () => {
-      const { data } = await getCurrentUserProfile();
-      setProfile(data);
-    };
-
-    catchErrors(fetchData());
   }, []);
 
   return (
@@ -31,33 +38,36 @@ function App() {
         {!token ? (
           <Login />
         ) : (
-          <BrowserRouter>
-            <ScrollToTop />
-            <Routes>
-              {/* need to pass components into 'element' prop on each Route */}
-              <Route
-                path="/top-artists"
-                element={<Container data={"Top Artists"} />}
-              />
+          <>
+            <StyledLogoutButton onClick={logout}>Log Out</StyledLogoutButton>
+            <BrowserRouter>
+              <ScrollToTop />
+              <Routes>
+                {/* need to pass components into 'element' prop on each Route */}
+                <Route
+                  path="/top-artists"
+                  element={<Container data={"Top Artists"} />}
+                />
 
-              <Route
-                path="/top-tracks"
-                element={<Container data={"Top Tracks"} />}
-              />
+                <Route
+                  path="/top-tracks"
+                  element={<Container data={"Top Tracks"} />}
+                />
 
-              <Route
-                path="/playlists/:id"
-                element={<Container data={"Playlist by Id"} />}
-              />
+                <Route
+                  path="/playlists/:id"
+                  element={<Container data={"Playlist by Id"} />}
+                />
 
-              <Route
-                path="/playlists"
-                element={<Container data={"Playlists"} />}
-              />
+                <Route
+                  path="/playlists"
+                  element={<Container data={"Playlists"} />}
+                />
 
-              <Route path="/" element={<UserInfo profile={profile} />} />
-            </Routes>
-          </BrowserRouter>
+                <Route path="/" element={<Profile />} />
+              </Routes>
+            </BrowserRouter>
+          </>
         )}
       </header>
     </div>
