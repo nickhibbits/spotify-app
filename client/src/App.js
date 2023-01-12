@@ -4,7 +4,6 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { GlobalStyle } from "./styles";
 import { Login, Profile, TopArtists, TopTracks } from "./pages";
 
-import Container from "./Container";
 import ScrollToTop from "./ScrollToTop";
 import styled from "styled-components/macro";
 
