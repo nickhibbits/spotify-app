@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { accessToken, logout } from "./spotify";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { GlobalStyle } from "./styles";
-import { Login, Profile } from "./pages";
+import { Login, Profile, TopArtists, TopTracks } from "./pages";
 
 import Container from "./Container";
 import ScrollToTop from "./ScrollToTop";
@@ -43,28 +43,9 @@ function App() {
             <BrowserRouter>
               <ScrollToTop />
               <Routes>
-                {/* need to pass components into 'element' prop on each Route */}
-                <Route
-                  path="/top-artists"
-                  element={<Container data={"Top Artists"} />}
-                />
-
-                <Route
-                  path="/top-tracks"
-                  element={<Container data={"Top Tracks"} />}
-                />
-
-                <Route
-                  path="/playlists/:id"
-                  element={<Container data={"Playlist by Id"} />}
-                />
-
-                <Route
-                  path="/playlists"
-                  element={<Container data={"Playlists"} />}
-                />
-
                 <Route path="/" element={<Profile />} />
+                <Route path="/top-artists" element={<TopArtists />} />
+                <Route path="/top-tracks" element={<TopTracks />} />
               </Routes>
             </BrowserRouter>
           </>
